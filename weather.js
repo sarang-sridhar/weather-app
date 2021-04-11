@@ -1,6 +1,6 @@
 var imp=document.querySelector('.imperial');
 var met=document.querySelector('.metric');
-
+var x;
 
 const api = {
     key: "6a5769b01804b6d34f443c925ebea6dd",
@@ -15,7 +15,8 @@ const api = {
   
   function setQuery(evt) {
     if (evt.keyCode == 13) {
-      getResults(searchbox.value);
+        x=searchbox.value;
+      getResults(x);
     }
   }
   
@@ -61,6 +62,12 @@ const api = {
     let feel=document.querySelector('.feels-like');
     feel.innerText=`feels-like: ${Math.round(weather.main.feels_like)} °c `;
 
+    let weather_dsc = document.querySelector('.weather-dsc');
+    weather_dsc.innerText = weather.weather[0].description;
+
+    let icon=document.querySelector('.icon');
+    icon.style.backgroundImage=url(`http://openweathermap.org/img/wn/${weather.weather[0].icon}d@2x.png`)
+
   }
   function displayResults2 (weather) {
     let city = document.querySelector('.city');
@@ -73,8 +80,11 @@ const api = {
     let temp = document.querySelector('.temp');
     temp.innerHTML = `${Math.round(weather.main.temp)}<span>°F</span>`;
   
-    let weather_el = document.querySelector('.current .weather');
+    let weather_el = document.querySelector('.weather');
     weather_el.innerText = weather.weather[0].main;
+
+    let weather_dsc = document.querySelector('.weather-dsc');
+    weather_dsc.innerText = weather.weather[0].description;
   
     let hilow = document.querySelector('.hi-low');
     hilow.innerText = `${Math.round(weather.main.temp_min)}°F / ${Math.round(weather.main.temp_max)}°F`;
@@ -103,16 +113,16 @@ const api = {
     return `${day} ${date} ${month} ${year}`;
   }
 window.addEventListener('DOMContentLoaded', () => {
-    
-    getResults("chennai");
+    x="chennai";
+    getResults(x);
     
     
 })
 
 met.addEventListener('click',()=>{
-    getResults(searchbox.value);
+    getResults(x);
 })
 
 imp.addEventListener('click',()=>{
-    getResults2(searchbox.value);
+    getResults2(x);
 })
