@@ -1,6 +1,6 @@
 var imp=document.querySelector('.imperial');
 var met=document.querySelector('.metric');
-var x;
+var y="metric";
 
 const api = {
     key: "6a5769b01804b6d34f443c925ebea6dd",
@@ -21,19 +21,19 @@ const api = {
   }
   
   function getResults (query) {
-    fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+    fetch(`${api.base}weather?q=${query}&units=${y}&APPID=${api.key}`)
+      
       .then(weather => {
         return weather.json();
       }).then(displayResults);
   }
   
-  function getResults2 (query) {
-    fetch(`${api.base}weather?q=${query}&units=imperial&APPID=${api.key}`)
-      .then(weather => {
-        return weather.json();
-      }).then(displayResults2);
-  }
+  
   function displayResults (weather) {
+
+
+    if(y==="metric"){
+    
     let city = document.querySelector('.city');
     city.innerText = `${weather.name}, ${weather.sys.country}`;
   
@@ -67,9 +67,9 @@ const api = {
 
     let icon=document.querySelector('.icon');
     icon.style.backgroundImage=url(`http://openweathermap.org/img/wn/${weather.weather[0].icon}d@2x.png`)
-
-  }
-  function displayResults2 (weather) {
+    }
+  
+   else{
     let city = document.querySelector('.city');
     city.innerText = `${weather.name}, ${weather.sys.country}`;
   
@@ -100,7 +100,10 @@ const api = {
 
     let feel=document.querySelector('.feels-like');
     feel.innerText=`feels-like: ${Math.round(weather.main.feels_like)} °F `;
+
+    y="metric";
   }
+}
   function dateBuilder (d) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -120,9 +123,11 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 met.addEventListener('click',()=>{
+    y="metric";
     getResults(x);
 })
 
 imp.addEventListener('click',()=>{
-    getResults2(x);
+    y="imperial";
+    getResults(x);
 })
